@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/Tokarev.log/">
     <title>НОВОСТИ - НЕДЕЛИ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"
         defer></script>
-    <link rel="shortcut icon" href="src/assets/css/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="Кисулькен.png" type="image/png">
     <link rel="stylesheet" href="src/css/main.css">
 </head>
 
@@ -18,7 +19,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="main.html"><img src="src/assets/css/favicon.svg" alt="Логотип">
+                <a class="navbar-brand" href="main.html"><img src="Кисулькен.png" alt="Логотип">
                     <h2>НОВОСТИ</h2>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
