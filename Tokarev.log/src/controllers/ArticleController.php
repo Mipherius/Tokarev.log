@@ -14,6 +14,7 @@ class ArticleController extends ControllerFather{
         } else{
             $this->view->renderHtml("errors/404.php", [], 404);
         }
+        return;
     }
     public function edit($id): void{
         $article = Article::getById($id);
@@ -25,6 +26,7 @@ class ArticleController extends ControllerFather{
         } else{
             $this->view->renderHtml("articles/edit.php", ['article' => $article]);
         }
+        return;
     }
     public function create(): void{
         $article = new Article();
@@ -34,6 +36,11 @@ class ArticleController extends ControllerFather{
         $article->save();
     }
     public function delete($id): void{
-        
+        $article = Article::getById($id);
+        if($article === null){
+            $this->view->renderHtml("errors/404.php", [], 404);
+        }
+        $article->delete();
+        return;
     }
 }

@@ -63,6 +63,12 @@ abstract class ActiveRecordEntity{
         $sql = 'INSERT INTO ' . static::getTableName() . ' (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $paramsNames) . ');';
         $db = Db::getInstance();
         $db->query($sql, $params2values, static::class);
+        $this->ID = $db->getLastInsertId();
+    }
+    public function delete(){
+        $db = Db::getInstance();
+        $db->query('DELETE FROM `' . static::getTableName() . '` WHERE id = :id', [':id' => $this->ID]);
+        $this->ID = null;
     }
     abstract protected static function getTableName(): string;
     
