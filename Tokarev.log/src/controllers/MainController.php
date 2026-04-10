@@ -1,18 +1,11 @@
 <?php
 namespace src\controllers;
-use src\services\Db;
 
-class MainController extends ControllerFather{
-    public function main(): void{
-        $db = Db::getInstance();
-        $articles = $db->query('SELECT * FROM `articles`;');
-        
-        $this->view->renderHtml("main/main.php", ['articles' => $articles]);
+class MainController extends Controller{
+    public function main(){
+       $this->view->renderHtml('main/main.php' );
     }
-    
-    public function sayHello($name): void{
-        echo "Здравствуй, " . $name;
+    public function sayHello($name){
+        echo 'Привет, ' . $name;
     }
 }
-
-?>

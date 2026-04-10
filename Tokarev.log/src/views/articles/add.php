@@ -1,4 +1,4 @@
-<h1>Редактирование статьи: <?= $article->getName() ?></h1>
+<h1>Новая статья</h1>
 <?php if (!empty($error)) : ?>
     <p style="background-color: red"><?= $error ?></p>
 <?php endif ?>
@@ -6,17 +6,16 @@
     <form action="" method="POST" enctype="multipart/form-data">
         <div class="mb-6">
             <label for="inputName" class="form-label">Название статьи</label>
-            <input type="text" id="inputName" name="name" class="form-control" value="<?= $_POST['name'] ?? $article->getName() ?>">
+            <input type="text" id="inputName" name="name" class="form-control" value="<?= $_POST['name'] ?? '' ?>">
         </div>
         <div class="mb-6">
             <label for="inputText" class="form-label">Текст статьи</label>
-            <textarea id="inputText" name="text" class="form-control"> <?= $_POST['text'] ?? $article->getText() ?></textarea>
+            <textarea id="inputText" name="text" class="form-control"> <?= $_POST['text'] ?? '' ?></textarea>
         </div>
         <div class="mb-6">
             <label for="inputImg" class="form-label">Название статьи</label>
             <input type="file" id="inputImg" class="form-control" name="img">
         </div>
-        <input type="submit" class="btn btn-primary" value="Сохранить изменения">
+        <input type="submit" class="btn btn-primary" value="Опубликовать">
 </form>
 </div>
-<a href="article/<?= $article->getId() ?>">Отменить редактирование</a>

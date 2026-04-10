@@ -5,7 +5,7 @@ use src\services\Db;
 abstract class ActiveRecordEntity{
     protected $ID;
 
-    public function getID(): int{
+    public function getId(): int{
         return $this->ID;
     }
     public static function findAll(): array{
@@ -14,26 +14,41 @@ abstract class ActiveRecordEntity{
     }
     public static function getById($id): ?self{
         $db = Db::getInstance();
-        $entities = $db->query('SELECT * FROM `' . static::getTableName() . '` WHERE id = :id;' , [':id' => $id], static::class);
+        $entities = $db->query(
+            'SELECT * FROM `' . static::getTableName() . '` WHERE id = :id;',
+            [':id' => $id],
+            static::class
+        );
         return $entities ? $entities[0] : null;
     }
-    public function save(){
-        $properties = $this->getReflectorProperties();
-        if($this->ID !== null){
-            $this->update($properties);
-        } else{
-            $this->insert($properties);
+    public static function findOneByColumn(string $columnName, $value): ?self{
+        $db = Db::getInstance();
+        $result = $db->query(
+            'SELECT * FROM `' . static::getTableName() . '` WHERE `' . $columnName . '` = :value LIMIT 1;',
+            [':value' => $value],
+            static::class);
+        if ($result === []) {
+            return null;
         }
+        return $result[0];
     }
-    public function getReflectorProperties(): array{
+    public function getRelectorProperties(): array{
         $reflector = new \ReflectionObject($this);
         $properties = $reflector->getProperties();
         $resultProperties = [];
-        foreach($properties as $property){
+        foreach ($properties as $property) {
             $propertyName = $property->getName();
-            $resultProperties[$propertyName] = $this->$propertyName; 
+            $resultProperties[$propertyName] = $this->$propertyName;
         }
         return $resultProperties;
+    }
+    public function save(){
+        $properties = $this->getRelectorProperties();
+        if($this->ID !== null){
+            $this->update($properties);
+        } else {
+            $this->insert($properties);
+        }
     }
     public function update($properties){
         $columns2params = [];
@@ -53,14 +68,15 @@ abstract class ActiveRecordEntity{
         $filteredProperties = array_filter($properties);
         $columns = [];
         $paramsNames = [];
-        $params2values = []; //ассоциативный массив параметр -> значение
+        $params2values = [];
         foreach($filteredProperties as $columnName => $value){
             $columns[] = '`' . $columnName . '`';
             $paramsName = ':' . $columnName;
             $paramsNames[] = $paramsName;
             $params2values[$paramsName] = $value;
         }
-        $sql = 'INSERT INTO ' . static::getTableName() . ' (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $paramsNames) . ');';
+        $sql = 'INSERT INTO ' . static::getTableName() . ' (' . implode(', ', $columns) . ') VALUES (' .
+        implode(', ', $paramsNames) . ');';
         $db = Db::getInstance();
         $db->query($sql, $params2values, static::class);
         $this->ID = $db->getLastInsertId();
@@ -70,6 +86,11 @@ abstract class ActiveRecordEntity{
         $db->query('DELETE FROM `' . static::getTableName() . '` WHERE id = :id', [':id' => $this->ID]);
         $this->ID = null;
     }
+    public static function search(string $column, string $searchString): ?array{
+        $db = Db::getInstance();
+        $searchString = "'%$searchString%'";
+        return $db->query("SELECT * FROM `{static::getTableName()}` WHERE $column LINE $searchString", [], static::class);
+    }
+
     abstract protected static function getTableName(): string;
-    
 }

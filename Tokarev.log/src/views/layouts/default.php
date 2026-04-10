@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"
         defer></script>
-    <link rel="shortcut icon" href="Кисулькен.png" type="image/png">
+    <link rel="icon" href="Кисулькен.png" type="image/png">
     <link rel="stylesheet" href="src/css/main.css">
 </head>
 
@@ -19,7 +19,7 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="main.html"><img src="Кисулькен.png" alt="Логотип">
+                <a class="navbar-brand" href=""><img src="Кисулькен.png" alt="Логотип">
                     <h2>НОВОСТИ</h2>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -39,8 +39,12 @@
                                 Профиль
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Регистрация</a></li>
-                                <li><a class="dropdown-item" href="#">Авторизация</a></li>
+                                <?php if(!$user):?>
+                                    <li><a class="dropdown-item" href="user/register">Регистрация</a></li>
+                                    <li><a class="dropdown-item" href="user/login">Авторизация</a></li>
+                                <?php else: ?>
+                                    <li><a class="dropdown-item" href="user/logout">Выход</a></li>
+                                <?php endif ?>
                             </ul>
                         </li>
                     </ul>

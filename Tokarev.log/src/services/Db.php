@@ -1,48 +1,40 @@
 <?php
-
 namespace src\services;
+use src\exceptions\DbException;
 
 class Db{
-    public $pdo;
+    private $pdo;
     private static $instance;
 
     private function __construct(){
-        $db_options = (require __DIR__ . '/../config/settings.php')['db'];
-        $this->pdo = new \PDO(
-            'mysql:host=' . $db_options['host'] . ';dbname=' . $db_options['dbname'],
-            $db_options['user'],
-            $db_options['password']
-        );
-        $this->pdo->exec('SET NAMES UTF8');
+        $dbOptions = (require __DIR__ . '/../config/settings.php')['db'];
+        try {
+            $this->pdo = new \PDO(
+            'mysql:host=' . $dbOptions['host'] .
+            ';dbname=' . $dbOptions['dbname'],
+            $dbOptions['user'],
+            $dbOptions['password']
+            );
+            $this->pdo->exec('SET NAMES UTF8');
+        }catch (\PDOException $e) {
+            throw new DbException('Ошибка при подключении к базе данных' . $e->getMessage());
+        }
     }
     public static function getInstance(){
-        if(self::$instance === null){
+        if(self::$instance === null) {
             self::$instance = new self();
         }
         return self::$instance;
     }
-    public function query(string $sql, $params = [], string $className = 'stdClass'):  ? array{
+    public function query(string $sql, $params = [], string $className = 'stdClass'):  ?array{
         $sth = $this->pdo->prepare($sql);
         $result = $sth->execute($params);
         if(false === $result){
             return null;
-        } else{
-            return $sth->fetchAll(\PDO::FETCH_CLASS, $className);
         }
+        return $sth->fetchAll(\PDO::FETCH_CLASS, $className);
     }
     public function getLastInsertId(): int{
         return (int) $this->pdo->lastInsertId();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

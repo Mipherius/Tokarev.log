@@ -1,5 +1,4 @@
 <?php
-
 return [
     'db' => [
         'host' => 'localhost',
@@ -8,9 +7,3 @@ return [
         'password' => '',
     ],
 ];
-
-
-
-
-
-

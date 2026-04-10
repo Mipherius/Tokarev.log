@@ -1,6 +1,3 @@
-<h1>Статьи</h1>
-<?php foreach($articles as  $article): ?>
-    <h2> <?= $article['Name']?> </h2>
-    <p> <?= $article['Text']?> </p>
-    <hr>
-<?php endforeach; ?>
+<h1>Главная страница</h1>
+<a href="articles">Статьи</a>
+<a href="users">Пользователи</a>
