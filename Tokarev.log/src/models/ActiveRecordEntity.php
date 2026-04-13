@@ -24,7 +24,7 @@ abstract class ActiveRecordEntity{
     public static function findOneByColumn(string $columnName, $value): ?self{
         $db = Db::getInstance();
         $result = $db->query(
-            'SELECT * FROM `' . static::getTableName() . '` WHERE `' . $columnName . '` = :value LIMIT 1;',
+            'SELECT * FROM `'.static::getTableName().'` WHERE `'.$columnName.'` = :value LIMIT 1;',
             [':value' => $value],
             static::class);
         if ($result === []) {
@@ -89,7 +89,11 @@ abstract class ActiveRecordEntity{
     public static function search(string $column, string $searchString): ?array{
         $db = Db::getInstance();
         $searchString = "'%$searchString%'";
-        return $db->query("SELECT * FROM `{static::getTableName()}` WHERE $column LINE $searchString", [], static::class);
+        $table = static::getTableName();
+        // var_dump('SELECT * FROM `'.static::getTableName().'` WHERE `'.$column.'` LIKE `'.$searchString.'`');
+        var_dump('SELECT * FROM Articles WHERE Name LIKE '.$searchString);
+        // return $db->query("SELECT * FROM `$table` WHERE $column LIKE $searchString", [], static::class);
+        return $db->query('SELECT * FROM Articles WHERE Name LIKE '.$searchString, [], static::class);
     }
 
     abstract protected static function getTableName(): string;

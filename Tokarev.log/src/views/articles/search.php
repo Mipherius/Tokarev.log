@@ -12,11 +12,11 @@
         <p>Ничего не найдено</p>
     <?php else: ?>
         <?php foreach($articles as $article):  ?>
-            <h2><?= $article->getName() ?></h2>
+            <h2><?=  htmlspecialchars($article->getName()) ?></h2>
             <?php if($article->getImg() !== null)  : ?>
                 <img  class="img-fluid" src="<?= $article->getImg() ?>" alt="">
             <?php endif; ?>
-            <p><?= $article->getText() ?></p>
+            <p><?=  htmlspecialchars($article->getText()) ?></p>
             <p>Автор: <?= $article->getAuthor()->getNickname() ?></p>
             <a href="article/<?= $article->getId() ?>">Подробнее</a>
             <hr>

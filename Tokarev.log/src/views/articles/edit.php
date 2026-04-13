@@ -1,4 +1,4 @@
-<h1>Редактирование статьи: <?= $article->getName() ?></h1>
+<h1>Редактирование статьи: <?= htmlspecialchars($article->getName()) ?></h1>
 <?php if (!empty($error)) : ?>
     <p style="background-color: red"><?= $error ?></p>
 <?php endif ?>
@@ -13,7 +13,7 @@
             <textarea id="inputText" name="text" class="form-control"> <?= $_POST['text'] ?? $article->getText() ?></textarea>
         </div>
         <div class="mb-6">
-            <label for="inputImg" class="form-label">Название статьи</label>
+            <label for="inputImg" class="form-label">Изображения</label>
             <input type="file" id="inputImg" class="form-control" name="img">
         </div>
         <input type="submit" class="btn btn-primary" value="Сохранить изменения">
